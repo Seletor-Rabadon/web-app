@@ -1,7 +1,9 @@
-import { searchStr } from '@/lib/search';
+import { searchStr } from '@/lib/utils/search';
 import { GameProfile } from '@/types/game-profile';
 
-export function getGameProfiles(search: string): GameProfile[] {
+export async function getGameProfiles(search: string): Promise<GameProfile[]> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return [
     {
       gameName: 'Veio',

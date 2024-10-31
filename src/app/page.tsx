@@ -1,27 +1,31 @@
 'use client';
 import { NickSearchbar } from '@/components/NickSearchbar';
+import ProfileCompatibility from '@/components/ProfileCompatibility';
 import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/tailwind';
+import { GameProfile } from '@/types/game-profile';
 import Image from 'next/image';
 import { useState } from 'react';
 
 export default function Home() {
   const [searchFocused, setSearchFocused] = useState(false);
 
+  const [selectedProfile, setSelectedProfile] = useState<GameProfile>();
+
   return (
     <div
       className={cn(
         'flex w-full items-center justify-center',
-        searchFocused ? 'items-start' : ''
+        searchFocused || selectedProfile ? 'items-start' : ''
       )}
     >
       <div
         className={cn(
-          'md:max-h-screen-content flex w-full max-w-container flex-col items-center justify-center px-6 py-36 transition-all',
-          searchFocused && 'pt-6'
+          'flex w-full max-w-container flex-col items-center justify-center px-6 transition-all md:min-h-[480px]',
+          (searchFocused || selectedProfile) && 'justify-start'
         )}
       >
-        {!searchFocused && (
+        {!searchFocused && !selectedProfile && (
           <Image
             src='/logo/horizontal-logo.svg'
             alt='logo'
@@ -30,7 +34,7 @@ export default function Home() {
             height={152}
           />
         )}
-        {!searchFocused && (
+        {!searchFocused && !selectedProfile && (
           <p className='text-center text-sm text-muted'>
             Sistema de recomendação de campeões de League of Legends® baseado
             em Inteligência Artificial
@@ -43,8 +47,15 @@ export default function Home() {
           onBlur={() => {
             setSearchFocused(false);
           }}
+          onSelectProfile={(profile) => {
+            setSelectedProfile(profile);
+            setSearchFocused(false);
+          }}
+          onClear={() => {
+            setSelectedProfile(undefined);
+          }}
         />
-        {!searchFocused && (
+        {!searchFocused && !selectedProfile && (
           <div className='max-w-[600px] text-center text-sm text-muted'>
             Digite seu Nome de Invocador e seu{' '}
             <Badge variant='outline'>#ID Riot</Badge> para encontrar os campeões
@@ -52,6 +63,7 @@ export default function Home() {
             outros jogadores
           </div>
         )}
+        {selectedProfile && <ProfileCompatibility profile={selectedProfile} />}
       </div>
     </div>
   );
