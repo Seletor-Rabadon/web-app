@@ -1,6 +1,7 @@
 'use client';
 import { NickSearchbar } from '@/components/NickSearchbar';
 import ProfileCompatibility from '@/components/ProfileCompatibility';
+import SelectedProfile from '@/components/SelectedProfile';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils/tailwind';
 import { GameProfile } from '@/types/game-profile';
@@ -63,6 +64,7 @@ export default function Home() {
             outros jogadores
           </div>
         )}
+
         {selectedProfile && <ProfileCompatibility profile={selectedProfile} />}
       </div>
     </div>

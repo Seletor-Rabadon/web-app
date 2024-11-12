@@ -38,30 +38,43 @@ export default function ProfileOption({
       >
         <div className='flex items-center gap-x-3'>
           {isHistory && <Clock className='size-6 text-muted' />}
-          <Image
-            className='rounded-sm'
-            width={36}
-            height={36}
-            src={`https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon${profile.profileIconId}.jpg`}
-            alt='Ícone'
-          />
+          {profile.profileIconId && (
+            <Image
+              className='rounded-sm'
+              width={36}
+              height={36}
+              src={`https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon${profile.profileIconId}.jpg`}
+              alt='Ícone'
+            />
+          )}
+          {!profile.profileIconId && (
+            <Image
+              className='rounded-sm'
+              width={36}
+              height={36}
+              src={`/extra-icons/placeholder.svg`}
+              alt='Ícone'
+            />
+          )}
         </div>
         <div className='flex flex-wrap items-center gap-x-3 gap-y-0'>
           <p className='m-0 text-sm font-bold'>{profile.gameName}</p>
           <Badge variant='outline' className='bg-background'>
             #{profile.tagLine}
           </Badge>
-          <div className='flex items-center gap-2'>
-            <p className='m-0 text-sm font-thin text-muted'>
-              {getGameRankLabel(profile.gameRank)}
-            </p>
-            <Image
-              width={24}
-              height={24}
-              src={getGameRankIcon(profile.gameRank)}
-              alt='Elo'
-            />
-          </div>
+          {profile.gameRank && (
+            <div className='flex items-center gap-2'>
+              <p className='m-0 text-sm font-thin text-muted'>
+                {getGameRankLabel(profile.gameRank)}
+              </p>
+              <Image
+                width={24}
+                height={24}
+                src={getGameRankIcon(profile.gameRank)}
+                alt='Elo'
+              />
+            </div>
+          )}
         </div>
       </div>
       {isHistory && (

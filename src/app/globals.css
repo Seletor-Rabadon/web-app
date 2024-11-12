@@ -43,6 +43,8 @@ body {
     --foreground: hsl(0 0 100);
     --card: hsl(261 21 24);
     --card-foreground: hsl(47 56 82);
+    --card2: hsl(47 56 82);
+    --card2-foreground: hsl(240, 21%, 12%);
     --popover: hsl(261 21 24);
     --popover-foreground: hsl(0 0 100);
     --primary: hsl(94 98 68);

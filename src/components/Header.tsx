@@ -24,8 +24,8 @@ export default function Header() {
 
   return (
     <Sheet>
-      <nav className='h-header flex w-full items-center justify-center bg-card px-6'>
-        <div className='flex w-full max-w-container items-center justify-between gap-10 md:justify-start'>
+      <nav className='flex h-header w-full items-center justify-center bg-card'>
+        <div className='flex w-full max-w-container items-center justify-between gap-10 px-6 md:justify-start'>
           <Image
             src='/logo/horizontal-logo.svg'
             alt='logo'
@@ -54,7 +54,7 @@ export default function Header() {
                 Página Inicial
               </a>
             </li>
-            <li>
+            {/* <li>
               <a
                 href='/sobre'
                 className={`transition-colors hover:text-primary ${
@@ -63,7 +63,7 @@ export default function Header() {
               >
                 Sobre o Projeto
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </nav>
@@ -86,7 +86,7 @@ export default function Header() {
                   Página Inicial
                 </a>
               </li>
-              <li
+              {/* <li
                 className={`border-[hsl(240 13 41)] ${
                   pathname === '/sobre' ? 'bg-card' : 'bg-background'
                 }`}
@@ -99,7 +99,7 @@ export default function Header() {
                 >
                   Sobre o Projeto
                 </a>
-              </li>
+              </li> */}
             </ul>
           </SheetTrigger>
         </div>

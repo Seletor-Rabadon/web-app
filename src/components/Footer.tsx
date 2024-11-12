@@ -17,8 +17,8 @@ import { Separator } from './ui/separator';
 
 export default function Footer() {
   return (
-    <div className='mt-auto flex w-full flex-col items-center justify-center bg-card p-6'>
-      <div className='flex w-full max-w-container flex-wrap items-center justify-between gap-10'>
+    <div className='mt-auto flex w-full flex-col items-center justify-center bg-card py-6'>
+      <div className='flex w-full max-w-container flex-wrap items-center justify-between gap-10 px-6'>
         <div className='flex w-full flex-wrap items-center justify-center gap-4 md:w-auto md:justify-start'>
           <Image
             src='/logo/vertical-lol-logo.svg'
@@ -50,7 +50,7 @@ export default function Footer() {
           </p>
         </div>
       </div>
-      <div className='w-full max-w-container'>
+      <div className='w-full max-w-container px-6'>
         <Separator className='my-6 bg-muted opacity-20' />
 
         <p className='text-center text-xs leading-normal text-muted md:text-left'>
