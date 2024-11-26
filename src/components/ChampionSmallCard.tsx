@@ -34,13 +34,13 @@ export default function ChampionSmallCard({ affinity, index }: Props) {
         }}
       >
         <div className='flex h-1/2 w-full flex-col items-start justify-end rounded-lg bg-gradient-to-t from-black to-transparent p-4'>
-          <div className='text-lg font-bold uppercase text-white'>
+          <div className='text-sm font-bold uppercase text-white md:text-lg'>
             {affinity.championName}
           </div>
           <div className='flex w-full items-center gap-1'>
             <Progress value={affinity.affinity * 100} />
             <div className='text-md font-bold text-white'>
-              {affinity.affinity * 100}%
+              {(affinity.affinity * 100).toFixed(0)}%
             </div>
           </div>
         </div>

@@ -106,7 +106,7 @@ export function NickSearchbar({
   }, [value]);
 
   return (
-    <div className='mx-auto my-6 w-[70vw] max-w-full'>
+    <div className='mx-auto my-6 w-full md:w-[80vw] md:max-w-full'>
       <div className={cn('relative w-full rounded-md')}>
         <div className='relative z-50 flex w-full items-center justify-between gap-1'>
           <div className='relative flex-1'>

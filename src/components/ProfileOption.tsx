@@ -30,14 +30,14 @@ export default function ProfileOption({
       <div
         className={cn(
           'relative w-full cursor-pointer rounded-sm px-1 py-2 hover:bg-background',
-          'flex items-center gap-3',
+          'flex flex-wrap items-center gap-3',
           'hover:ring-1 hover:ring-muted hover:ring-offset-0'
         )}
         onClick={onClick}
         role='button'
       >
         <div className='flex items-center gap-x-3'>
-          {isHistory && <Clock className='size-6 text-muted' />}
+          {isHistory && <Clock className='size-6 min-w-6 text-muted' />}
           {profile.profileIconId && (
             <Image
               className='rounded-sm'

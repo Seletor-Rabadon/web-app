@@ -40,7 +40,10 @@ export default function ChampionDetailedCard({ affinity, index }: Props) {
     getChampionData(affinity.championId).then((champion) => {
       setChampion(champion);
       if (!selectedAbility) {
-        setSelectedAbility(champion?.passive);
+        setSelectedAbility({
+          ...champion?.passive,
+          type: 'Passiva',
+        } as ChampionPassive);
       }
     });
   }, [affinity.championId]);
@@ -50,7 +53,7 @@ export default function ChampionDetailedCard({ affinity, index }: Props) {
   return (
     <div
       key={affinity.championId}
-      className={`relative flex w-full rounded-lg bg-card to-card`}
+      className={`relative flex w-full flex-wrap rounded-lg bg-card to-card`}
     >
       <div className='absolute -left-2 -top-2 z-10 flex items-center justify-center rounded-sm bg-secondary px-2 py-1'>
         <div className='text-lg font-bold uppercase text-black'>
@@ -68,7 +71,7 @@ export default function ChampionDetailedCard({ affinity, index }: Props) {
         }}
       ></div>
       <div className='flex flex-1 flex-col items-start justify-between p-6 px-8'>
-        <div className='flex w-full items-center gap-6'>
+        <div className='flex w-full flex-wrap items-center gap-6'>
           <h1 className='text-3xl font-black uppercase italic'>
             {champion.name}
           </h1>
@@ -83,7 +86,7 @@ export default function ChampionDetailedCard({ affinity, index }: Props) {
           <h1 className='mb-4 mt-6 text-2xl font-black uppercase italic text-card2'>
             Habilidades
           </h1>
-          <div className='relative flex w-full items-center justify-evenly gap-4 before:absolute before:inset-0 before:top-8 before:z-0 before:h-[1px] before:w-full before:bg-card2'>
+          <div className='relative flex w-full flex-wrap items-center justify-evenly gap-4 before:absolute before:inset-0 before:top-8 before:z-0 before:h-[1px] before:w-full before:bg-card2'>
             {championAbilities?.map((ability) => (
               <Image
                 key={ability.name}

@@ -15,7 +15,7 @@ type Props = {
 };
 export default function SelectedProfile({ profile }: Props) {
   return (
-    <div className='mx-auto mb-4 flex w-[70vw] max-w-full items-center gap-3 border-b border-[#544A67] pb-4'>
+    <div className='mx-auto mb-4 flex w-full items-center gap-3 border-b border-[#544A67] pb-4 md:w-[80vw] md:max-w-full'>
       <div className='flex items-center gap-x-3'>
         {profile.profileIconId && (
           <Image

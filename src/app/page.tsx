@@ -22,7 +22,7 @@ export default function Home() {
     >
       <div
         className={cn(
-          'flex w-full max-w-container flex-col items-center justify-center px-6 transition-all md:min-h-[480px]',
+          'flex min-h-[calc(100vh-100px)] w-full max-w-container flex-col items-center justify-center px-6 transition-all md:min-h-[480px] md:py-0',
           (searchFocused || selectedProfile) && 'justify-start'
         )}
       >

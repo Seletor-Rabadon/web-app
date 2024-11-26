@@ -42,7 +42,7 @@ export default function ProfileCompatibility({ profile }: Props) {
         <SelectedProfile profile={selectedProfile} />
       )}
       {error && (
-        <div className='mx-auto mb-4 w-[70vw] max-w-full rounded-md bg-red-400 p-4'>
+        <div className='mx-auto mb-4 w-full rounded-md bg-red-400 p-4 md:w-[80vw] md:max-w-full'>
           <div className='flex items-center gap-3'>
             <AlertTriangle className='size-7 text-background' />
             <div>
@@ -56,22 +56,22 @@ export default function ProfileCompatibility({ profile }: Props) {
       )}
       <div className='w-full pb-10'>
         {!isLoading && !error && affinities.length > 0 && (
-          <div className='mx-auto mb-4 w-[70vw] max-w-[1000px]'>
+          <div className='mx-auto mb-4 w-full md:w-[80vw] md:max-w-full'>
             <ChampionDetailedCard affinity={affinities[0]} index={0} />
           </div>
         )}
         {isLoading && (
-          <div className='mx-auto mb-4 w-[70vw] max-w-[1000px]'>
+          <div className='mx-auto mb-4 w-full md:w-[80vw] md:max-w-full'>
             <ChampionDetailedCardSkeleton />
           </div>
         )}
 
         {!isLoading && (
-          <p className='mx-auto mb-4 w-[70vw] max-w-full text-lg'>
+          <p className='mx-auto mb-4 w-full text-lg md:w-[80vw] md:max-w-full'>
             Tente também:
           </p>
         )}
-        <div className='mx-auto grid w-[70vw] max-w-full grid-cols-2 gap-4 md:grid-cols-[repeat(auto-fill,minmax(160px,1fr))]'>
+        <div className='mx-auto grid w-full grid-cols-2 gap-4 md:w-[80vw] md:max-w-full md:grid-cols-[repeat(auto-fill,minmax(160px,1fr))]'>
           {isLoading &&
             Array.from({ length: 10 }).map((_, index) => (
               <Skeleton
