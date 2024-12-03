@@ -12,6 +12,7 @@ import SelectedProfile from './SelectedProfile';
 import { AlertTriangle } from 'lucide-react';
 import ChampionDetailedCard from './ChampionDetailedCard';
 import ChampionDetailedCardSkeleton from './ChampionDetailedCardSkeleton';
+import { useGameProfilesHistory } from '@/lib/game-profiles';
 
 type Props = {
   profile: GameProfile;
@@ -25,16 +26,29 @@ export default function ProfileCompatibility({ profile }: Props) {
 
   const [error, setError] = useState<string | null>(null);
 
+  const { addToHistory } = useGameProfilesHistory();
   useEffect(() => {
+    setError(null);
+    setSelectedProfile(undefined);
+    setAffinities([]);
+
     setIsLoading(true);
-    getChampionAffinity(profile.name)
+    getChampionAffinity(
+      profile.name ? profile.name : `${profile.gameName}#${profile.tagLine}`
+    )
       .then((affinities) => {
-        setAffinities(affinities);
-        setSelectedProfile(profile);
+        setAffinities(affinities.championAffinities || []);
+        setSelectedProfile(affinities.profile);
+        addToHistory({
+          ...affinities.profile,
+          name: profile.name
+            ? profile.name
+            : `${profile.gameName}#${profile.tagLine}`,
+        });
       })
-      .catch(setError)
+      .catch((e) => setError(e.message))
       .finally(() => setIsLoading(false));
-  }, [profile.name]);
+  }, [profile]);
 
   return (
     <>
@@ -46,7 +60,9 @@ export default function ProfileCompatibility({ profile }: Props) {
           <div className='flex items-center gap-3'>
             <AlertTriangle className='size-7 text-background' />
             <div>
-              <p className='m-0 text-sm font-bold text-background'>{error}</p>
+              <p className='m-0 text-sm font-bold text-background'>
+                Erro: {JSON.stringify(error)}
+              </p>
               <p className='m-0 text-sm text-card'>
                 Verifique se o nome de invocador e a tagline estão corretos
               </p>
@@ -66,7 +82,7 @@ export default function ProfileCompatibility({ profile }: Props) {
           </div>
         )}
 
-        {!isLoading && (
+        {!isLoading && !error && (
           <p className='mx-auto mb-4 w-full text-lg md:w-[80vw] md:max-w-full'>
             Tente também:
           </p>
@@ -84,15 +100,18 @@ export default function ProfileCompatibility({ profile }: Props) {
 
           {!isLoading &&
             !error &&
-            affinities.map((affinity, index) =>
-              index == 0 ? null : (
-                <ChampionSmallCard
-                  key={affinity.championId}
-                  affinity={affinity}
-                  index={index}
-                />
-              )
-            )}
+            affinities?.length > 0 &&
+            affinities
+              ?.filter((a) => a.affinity >= 0.01)
+              .map((affinity, index) =>
+                index == 0 ? null : (
+                  <ChampionSmallCard
+                    key={affinity.championId}
+                    affinity={affinity}
+                    index={index}
+                  />
+                )
+              )}
         </div>
       </div>
     </>

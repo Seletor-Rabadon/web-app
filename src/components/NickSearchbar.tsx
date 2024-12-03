@@ -38,16 +38,12 @@ export function NickSearchbar({
 
   const [value, setValue] = useState('');
 
-  const { profiles, profilesError, isFetchingProfiles, refetchProfiles } =
-    useGameProfiles({
-      query: value,
-    });
+  const { profiles, profilesError } = useGameProfiles({
+    query: value,
+  });
 
-  const {
-    profiles: profilesHistory,
-    addToHistory,
-    removeFromHistory,
-  } = useGameProfilesHistory();
+  const { profiles: profilesHistory, removeFromHistory } =
+    useGameProfilesHistory();
 
   const handleInputChange = debounce(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +56,6 @@ export function NickSearchbar({
   const handleSelectProfile = (profile: GameProfile) => {
     if (onSelectProfile) onSelectProfile(profile);
     setFocused(false);
-    addToHistory(profile);
 
     setSelectedProfile(profile);
     if (!inputRef.current) return;
@@ -97,11 +92,11 @@ export function NickSearchbar({
 
   const selectableValue = React.useMemo(() => {
     if (!isValidNick(value.trim())) return null;
-    const parts = value.trim().split('#');
+    const parts = value?.trim()?.split('#');
     return {
-      gameName: parts[0].trim(),
-      tagLine: parts[1].trim(),
-      name: `${parts[0].trim()}#${parts[1].trim()}`,
+      gameName: parts[0]?.trim(),
+      tagLine: parts[1]?.trim(),
+      name: `${parts[0]?.trim()}#${parts[1]?.trim()}`,
     } as GameProfile;
   }, [value]);
 
@@ -187,10 +182,15 @@ export function NickSearchbar({
               Digite para procurar. Suas buscas recentes aparecerão aqui!
             </p>
           )}
-          {!value && profilesHistory.length > 0 && (
-            <ul>
-              <li className='py-2 pl-1 text-muted'>Buscas Recentes</li>
-              {profilesHistory
+          <ul>
+            {selectableValue && (
+              <ProfileOption
+                profile={selectableValue}
+                onClick={() => handleSelectProfile(selectableValue)}
+              />
+            )}
+            {profilesHistory.length > 0 &&
+              profilesHistory
                 .filter((p) => p.name != selectedProfile?.name)
                 ?.map((profile) => (
                   <ProfileOption
@@ -200,32 +200,7 @@ export function NickSearchbar({
                     onClick={() => handleSelectProfile(profile)}
                   />
                 ))}
-            </ul>
-          )}
-          {!isFetchingProfiles && !!value && (
-            <ul>
-              {(profiles || []).length == 0 && selectableValue && (
-                <ProfileOption
-                  profile={selectableValue}
-                  onClick={() => handleSelectProfile(selectableValue)}
-                />
-              )}
-              {(profiles || []).length > 0 &&
-                profiles?.map((profile) => (
-                  <ProfileOption
-                    profile={profile}
-                    onClick={() => handleSelectProfile(profile)}
-                  />
-                ))}
-            </ul>
-          )}
-          {isFetchingProfiles && (
-            <ul>
-              {Array.from({ length: 3 }).map((i) => (
-                <ProfileOptionSkeleton />
-              ))}
-            </ul>
-          )}
+          </ul>
           {profilesError && (
             <Alert variant='destructive'>
               <ExclamationTriangleIcon className='size-4' />
@@ -242,16 +217,16 @@ export function NickSearchbar({
 }
 
 function isOnlyNumbersOrLettersOrSpaces(str: string) {
-  return /^[a-zA-Z0-9 ]+$/.test(str);
+  return /^[a-zA-ZÀ-ÿ0-9 ]+$/.test(str);
 }
 
 function isValidNick(nick: string) {
   return (
     nick.length >= 3 &&
-    nick.includes('#') &&
-    nick.split('#').length == 2 &&
-    nick.split('#')[1].length >= 3 &&
-    isOnlyNumbersOrLettersOrSpaces(nick.split('#')[1]) &&
-    isOnlyNumbersOrLettersOrSpaces(nick.split('#')[0])
+    nick?.includes('#') &&
+    nick?.split('#').length == 2 &&
+    nick?.split('#')[1]?.length >= 3 &&
+    isOnlyNumbersOrLettersOrSpaces(nick?.split('#')[1]) &&
+    isOnlyNumbersOrLettersOrSpaces(nick?.split('#')[0])
   );
 }

@@ -78,7 +78,7 @@ export default function ChampionDetailedCard({ affinity, index }: Props) {
           <div className='flex flex-col items-end gap-1 [flex:1]'>
             <Progress value={affinity.affinity * 100} />
             <div className='text-md font-bold text-white'>
-              Compatibilidade: {affinity.affinity * 100}%
+              Compatibilidade: {(affinity.affinity * 100).toFixed(2)}%
             </div>
           </div>
         </div>

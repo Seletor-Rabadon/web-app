@@ -1,45 +1,38 @@
 import { GameProfile } from '@/types/game-profile';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   localStorageGetItem,
   localStorageSetItem,
 } from './utils/storage-available';
-import { getGameProfiles } from '@/services/game-profiles';
 
 type Props = {
   query: string;
 };
 export function useGameProfiles({ query }: Props) {
-  const [fetchingProfiles, setFetchingProfiles] = useState(false);
-
-  const [profiles, setProfiles] = useState<GameProfile[]>();
+  const [historyProfiles, setHistoryProfiles] = useState<GameProfile[]>();
 
   const [profilesError, setProfilesError] = useState();
 
-  const fetchProfiles = useCallback(async () => {
-    let res = await getGameProfiles(query);
-    setProfiles(res);
-  }, [setProfiles, query]);
-
   useEffect(() => {
-    setFetchingProfiles(true);
-    if (!query) {
-      const history = localStorageGetItem('historyProfiles');
-      setProfiles(history ? JSON.parse(history) : undefined);
-      setFetchingProfiles(false);
-      return;
-    }
+    const history = localStorageGetItem('historyProfiles');
+    setHistoryProfiles(history ? JSON.parse(history) : undefined);
+  }, []);
 
-    fetchProfiles()
-      .catch((e) => setProfilesError(e))
-      .finally(() => setFetchingProfiles(false));
-  }, [query]);
+  const profiles = useMemo(() => {
+    if (!query) return historyProfiles || [];
+    return (
+      historyProfiles?.filter(
+        (p) =>
+          p.name?.includes(query) ||
+          p.gameName?.includes(query) ||
+          p.tagLine?.includes(query)
+      ) || []
+    );
+  }, [historyProfiles, query]);
 
   return {
-    refetchProfiles: fetchProfiles,
     profiles,
     profilesError,
-    isFetchingProfiles: fetchingProfiles,
   };
 }
 

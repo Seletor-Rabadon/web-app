@@ -4,6 +4,8 @@ export type GameProfile = {
   profileIconId: string;
   tagLine: string;
   name: string;
+  revisionDate?: number;
+  summonerLevel?: number;
 };
 
 export enum GameRankIcon {
@@ -34,7 +36,7 @@ export enum GameRankLabel {
 
 export function getGameRankIcon(gameRank: string): string {
   if (!gameRank) return '';
-  const sanitizedGameRank = gameRank.split(
+  const sanitizedGameRank = gameRank?.split(
     ' '
   )?.[0] as keyof typeof GameRankIcon;
 
@@ -43,7 +45,7 @@ export function getGameRankIcon(gameRank: string): string {
 
 export function getGameRankLabel(gameRank: string): string {
   if (!gameRank) return '';
-  const parts = gameRank.split(' ');
+  const parts = gameRank?.split(' ');
   const sanitizedGameRank = parts[0] as keyof typeof GameRankLabel;
 
   return parts.length > 1
